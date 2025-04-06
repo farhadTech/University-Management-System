@@ -1,4 +1,4 @@
 package com.example.ums.service;
 
-public class StudentServiceImpl {
+public interface TimeslotService {
 }
