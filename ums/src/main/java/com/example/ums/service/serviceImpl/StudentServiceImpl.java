@@ -8,6 +8,7 @@ import com.example.ums.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +23,9 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentResponseDTO getStudentById(Long id) {
         StudentResponseDTO studentResponseDTO = studentRepository.findById(id);
+        if (Objects.isNull(studentResponseDTO)) {
+            throw new RuntimeException("User with id: " + id + " not found");
+        }
         return studentResponseDTO;
     }
 

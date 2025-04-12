@@ -4,6 +4,8 @@ import com.example.ums.dto.request.StudentRequestDTO;
 import com.example.ums.dto.response.StudentResponseDTO;
 import com.example.ums.service.StudentService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,22 +17,28 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping
-    public List<StudentResponseDTO> getAllStudents() {
-        return studentService.getAllStudents();
+    public ResponseEntity<List<StudentResponseDTO>> getAllStudents() {
+        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public StudentResponseDTO getStudentById(@PathVariable Long id) {
-        return studentService.getStudentById(id);
+    public ResponseEntity<StudentResponseDTO> getStudentById(@PathVariable Long id) {
+        return new ResponseEntity<>(studentService.getStudentById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public void createStudent(@RequestBody StudentRequestDTO studentRequestDTO) {
-        studentService.addStudent((studentRequestDTO));
+    public ResponseEntity<String> createStudent(@RequestBody StudentRequestDTO studentRequestDTO) {
+        studentService.addStudent(studentRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(studentRequestDTO.toString());
+//                .body("Student created successfully");
     }
 
-    @PutMapping
-    public void updateStudent(Long id, @RequestBody StudentRequestDTO studentRequestDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateStudent(Long id, @RequestBody StudentRequestDTO studentRequestDTO) {
         studentService.updateStudent(id, studentRequestDTO);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(studentRequestDTO.toString());
+//                .body("Student updated successfully");
     }
 }

@@ -24,7 +24,7 @@ public record StudentRequestDTO(
         @NotBlank(message = "Enter password: ")
         String password,
 
-        @Pattern(regexp = "^[1-9]{10}$", message = "Enter a valid 10-digit phone number")
+        @Pattern(regexp = "^(\\+8801|01)[0-9]{9}$", message = "Enter a valid Bangladeshi phone number")
         @NotBlank(message = "Enter phone number: ")
         String phone,
 
