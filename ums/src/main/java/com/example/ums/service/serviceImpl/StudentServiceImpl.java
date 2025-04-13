@@ -13,7 +13,7 @@ import java.util.Objects;
 @Service
 @AllArgsConstructor
 public class StudentServiceImpl implements StudentService {
-    private StudentRepository studentRepository;;
+    private final StudentRepository studentRepository;;
 
     @Override
     public List<StudentResponseDTO> getAllStudents() {
@@ -22,7 +22,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponseDTO getStudentById(Long id) {
-        StudentResponseDTO studentResponseDTO = studentRepository.findById(id);
+        StudentResponseDTO studentResponseDTO = studentRepository.findProjectedById(id);
         if (Objects.isNull(studentResponseDTO)) {
             throw new RuntimeException("User with id: " + id + " not found");
         }

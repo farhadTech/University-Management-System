@@ -9,5 +9,5 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Integer> {
     List<StudentResponseDTO> findAllProjectedBy();
 
-    StudentResponseDTO findById(Long id);
+    StudentResponseDTO findProjectedById(Long id);
 }
