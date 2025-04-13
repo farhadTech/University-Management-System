@@ -7,15 +7,18 @@ import com.example.ums.model.InstructorDetail;
 import com.example.ums.repository.InstructorDetailRepository;
 import com.example.ums.service.InstructorDetailService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class InstructorDetailServiceImpl implements InstructorDetailService {
-    private final InstructorDetailRepository instructorDetailRepository;
+    @Autowired
+    private InstructorDetailRepository instructorDetailRepository;
 
     @Override
     public List<InstructorDetailResponseDTO> getAllInstructorDetail() {
@@ -58,7 +61,7 @@ public class InstructorDetailServiceImpl implements InstructorDetailService {
     }
 
     @Override
-    public InstructorResponseDTO getInstructorByInstructorDetailId(Long id) {
+    public InstructorDetailResponseDTO getInstructorByInstructorDetailId(Long id) {
         return instructorDetailRepository.findInstructorByInstructorDetailId(id)
                 .orElseThrow(() -> new RuntimeException("instructor not found with id " + id));
     }

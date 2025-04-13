@@ -4,7 +4,7 @@ import com.example.ums.dto.request.StudentRequestDTO;
 import com.example.ums.dto.response.StudentResponseDTO;
 import com.example.ums.service.StudentService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("api/students")
 public class StudentController {
-    private StudentService studentService;
+    private final StudentService studentService;
 
     @GetMapping
     public ResponseEntity<List<StudentResponseDTO>> getAllStudents() {

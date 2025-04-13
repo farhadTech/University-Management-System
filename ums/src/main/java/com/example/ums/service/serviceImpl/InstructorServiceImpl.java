@@ -67,7 +67,7 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
-    public InstructorDetailResponseDTO getInstructorDetailByInstructorId(Long id){
+    public InstructorResponseDTO getInstructorDetailByInstructorId(Long id){
         return instructorRepository.findInstructorDetailByInstructorId(id)
                 .orElseThrow(() -> new RuntimeException("Instructor detail not found with id: " + id));
     }

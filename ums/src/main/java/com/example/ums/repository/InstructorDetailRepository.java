@@ -15,6 +15,7 @@ import java.util.Optional;
 public interface InstructorDetailRepository extends JpaRepository<InstructorDetail, Long> {
     List<InstructorDetailResponseDTO> findAllProjectedBy();
 
+    @Query("SELECT p from InstructorDetail  p where p.id=:id")
     InstructorDetailResponseDTO findProjectedById(Long id);
 
     /**
@@ -22,5 +23,5 @@ public interface InstructorDetailRepository extends JpaRepository<InstructorDeta
      **/
 
     @Query("SELECT d.instructor FROM InstructorDetail d WHERE d.id = :id")
-    Optional<InstructorResponseDTO> findInstructorByInstructorDetailId(@Param("id") Long id);
+    Optional<InstructorDetailResponseDTO> findInstructorByInstructorDetailId(@Param("id") Long id);
 }

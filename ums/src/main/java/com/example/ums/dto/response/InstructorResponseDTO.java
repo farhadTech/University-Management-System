@@ -1,6 +1,7 @@
 package com.example.ums.dto.response;
 
 import com.example.ums.model.Instructor;
+import com.example.ums.model.InstructorDetail;
 
 public interface InstructorResponseDTO {
     Long getId();
@@ -8,5 +9,7 @@ public interface InstructorResponseDTO {
     String getLastName();
     String getEmail();
     String getPhone();
-    Instructor getInstructor();
+
+    InstructorDetailResponseDTO getInstructorDetail();
 }
+

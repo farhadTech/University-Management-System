@@ -12,5 +12,5 @@ public interface InstructorDetailService {
     void addInstructorDetail(InstructorDetailRequestDTO instructorDetailRequestDTO);
     void updateInstructorDetail(Long id, InstructorDetailRequestDTO instructorDetailRequestDTO);
     void deleteInstructorDetail(Long id);
-    InstructorResponseDTO getInstructorByInstructorDetailId(Long id);
+    InstructorDetailResponseDTO getInstructorByInstructorDetailId(Long id);
 }

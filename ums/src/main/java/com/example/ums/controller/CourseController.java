@@ -3,14 +3,14 @@ package com.example.ums.controller;
 import com.example.ums.dto.request.CourseRequestDTO;
 import com.example.ums.dto.response.CourseResponseDTO;
 import com.example.ums.service.CourseService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/api/courses")
 @RestController
 public class CourseController {

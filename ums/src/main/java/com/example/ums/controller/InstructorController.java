@@ -5,7 +5,8 @@ import com.example.ums.dto.response.InstructorDetailResponseDTO;
 import com.example.ums.dto.response.InstructorResponseDTO;
 import com.example.ums.service.InstructorService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/instructors")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class InstructorController {
     private final InstructorService instructorService;
 
@@ -49,7 +50,7 @@ public class InstructorController {
     }
 
     @GetMapping("/instructorDetail/{id}")
-    public ResponseEntity<InstructorDetailResponseDTO> getInstructorDetailByInstructorId(@PathVariable Long id) {
+    public ResponseEntity<InstructorResponseDTO> getInstructorDetailByInstructorId(@PathVariable Long id) {
         return new ResponseEntity<>(instructorService.getInstructorDetailByInstructorId(id), HttpStatus.OK);
     }
 }

@@ -1,8 +1,6 @@
 package com.example.ums.repository;
 
-import com.example.ums.dto.response.InstructorDetailResponseDTO;
 import com.example.ums.dto.response.InstructorResponseDTO;
-import com.example.ums.model.Course;
 import com.example.ums.model.Instructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,9 +21,9 @@ public interface InstructorRepository extends JpaRepository<Instructor, Long> {
      **/
 
     @Query("""
-            SELECT i.instructorDetail 
+            SELECT i 
                         FROM Instructor i 
                                     WHERE i.id = :id
             """)
-    Optional<InstructorDetailResponseDTO> findInstructorDetailByInstructorId(@Param("id") Long id);
+    Optional<InstructorResponseDTO> findInstructorDetailByInstructorId(@Param("id") Long id);
 }
