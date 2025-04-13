@@ -2,6 +2,7 @@ package com.example.ums.service.serviceImpl;
 
 import com.example.ums.dto.request.InstructorDetailRequestDTO;
 import com.example.ums.dto.response.InstructorDetailResponseDTO;
+import com.example.ums.dto.response.InstructorResponseDTO;
 import com.example.ums.model.InstructorDetail;
 import com.example.ums.repository.InstructorDetailRepository;
 import com.example.ums.service.InstructorDetailService;
@@ -54,6 +55,12 @@ public class InstructorDetailServiceImpl implements InstructorDetailService {
 
     public void deleteInstructorDetail(Long id) {
         instructorDetailRepository.deleteById(id);
+    }
+
+    @Override
+    public InstructorResponseDTO getInstructorByInstructorDetailId(Long id) {
+        return instructorDetailRepository.findInstructorByInstructorDetailId(id)
+                .orElseThrow(() -> new RuntimeException("instructor not found with id " + id));
     }
 }
 

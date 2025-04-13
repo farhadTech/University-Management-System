@@ -3,6 +3,10 @@ package com.example.ums.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -33,4 +37,13 @@ public class Instructor {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "instructor_detail_id")
     private InstructorDetail instructorDetail;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "instructor",
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE,
+//                    CascadeType.REFRESH,
+//                    CascadeType.DETACH}
+//    ) // refers to instructor instance in Course class.
+//    private Set<Course> courses = new LinkedHashSet<>();
 }

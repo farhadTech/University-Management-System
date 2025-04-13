@@ -1,6 +1,7 @@
 package com.example.ums.controller;
 
 import com.example.ums.dto.request.InstructorRequestDTO;
+import com.example.ums.dto.response.InstructorDetailResponseDTO;
 import com.example.ums.dto.response.InstructorResponseDTO;
 import com.example.ums.service.InstructorService;
 import jakarta.validation.Valid;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/instructor")
+@RequestMapping("api/instructors")
 @AllArgsConstructor
 public class InstructorController {
     private final InstructorService instructorService;
@@ -46,9 +47,12 @@ public class InstructorController {
         instructorService.deleteInstructorById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @GetMapping("/instructorDetail/{id}")
+    public ResponseEntity<InstructorDetailResponseDTO> getInstructorDetailByInstructorId(@PathVariable Long id) {
+        return new ResponseEntity<>(instructorService.getInstructorDetailByInstructorId(id), HttpStatus.OK);
+    }
 }
-
-
 
 
 

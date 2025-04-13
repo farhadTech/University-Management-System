@@ -5,4 +5,5 @@ public interface InstructorDetailResponseDTO {
     String getBio();
     String getYoutubeChannel();
     String getHobby();
+    InstructorResponseDTO getInstructorResponseDTO();
 }

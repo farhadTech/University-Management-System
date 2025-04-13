@@ -1,7 +1,9 @@
 package com.example.ums.service.serviceImpl;
 
 import com.example.ums.dto.request.InstructorRequestDTO;
+import com.example.ums.dto.response.InstructorDetailResponseDTO;
 import com.example.ums.dto.response.InstructorResponseDTO;
+import com.example.ums.model.Course;
 import com.example.ums.model.Instructor;
 import com.example.ums.repository.InstructorRepository;
 import com.example.ums.service.InstructorService;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -62,5 +65,17 @@ public class InstructorServiceImpl implements InstructorService {
     public void deleteInstructorById(Long id) {
         instructorRepository.deleteById(id);
     }
+
+    @Override
+    public InstructorDetailResponseDTO getInstructorDetailByInstructorId(Long id){
+        return instructorRepository.findInstructorDetailByInstructorId(id)
+                .orElseThrow(() -> new RuntimeException("Instructor detail not found with id: " + id));
+    }
 }
+
+
+
+
+
+
 
