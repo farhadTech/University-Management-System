@@ -3,15 +3,17 @@ package com.example.ums.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "student")
 public class Student {
@@ -44,9 +46,27 @@ public class Student {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Override
-    public String toString() {
-        return id + ", " + firstName + ", " + lastName + ", " + email + ", "
-                + phone + ", " + address;
-    }
+    @ManyToMany(mappedBy = "students", // refers to "student_id" in "course_students" table.
+            fetch = FetchType.LAZY,
+            cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    })
+    private Set<Course> courses = new LinkedHashSet<>();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

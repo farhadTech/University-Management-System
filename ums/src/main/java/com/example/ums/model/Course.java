@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -34,7 +33,20 @@ public class Course {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id") // refers to "course_id" column in "review" table
-    private Set<Review> reviews;
+    private Set<Review> reviews = new LinkedHashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    })
+    @JoinTable(
+            name = "course_students",
+            joinColumns = @JoinColumn(name = "course_id"), // refers to "course_id" column in "course_student" join table.
+            inverseJoinColumns = @JoinColumn(name = "student_id") // refers to "student_id" column in "course_student" join table.
+    )
+    private Set<Student> students = new LinkedHashSet<>();
 
     // Adding convenience method for adding reviews
     public void addReview(Review tempReview) {

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -46,14 +47,13 @@ public class Instructor {
     ) // refers to instructor instance in Course class.
     private Set<Course> courses = new LinkedHashSet<>();
 
-    /*
     // add convenience method for bidirectional relationship
     public void addCourse(Course tempCourse) {
-        if(!courses == null) {
+        if(courses == null) {
             courses = new LinkedHashSet<>();
         }
         courses.add(tempCourse);
         tempCourse.setInstructor(this);
     }
-     */
+
 }
