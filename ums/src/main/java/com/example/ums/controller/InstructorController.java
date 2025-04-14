@@ -1,21 +1,20 @@
 package com.example.ums.controller;
 
+import com.example.ums.dto.request.InstructorDetailRequestDTO;
 import com.example.ums.dto.request.InstructorRequestDTO;
-import com.example.ums.dto.response.InstructorDetailResponseDTO;
 import com.example.ums.dto.response.InstructorResponseDTO;
 import com.example.ums.service.InstructorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("api/instructors")
-@RequiredArgsConstructor
 public class InstructorController {
     private final InstructorService instructorService;
 
@@ -30,8 +29,8 @@ public class InstructorController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createInstructor(@Valid @RequestBody InstructorRequestDTO instructorRequestDTO) {
-        instructorService.addInstructor(instructorRequestDTO);
+    public ResponseEntity<String> createInstructor(@Valid @RequestBody InstructorRequestDTO instructorRequestDTO, InstructorDetailRequestDTO instructorDetailRequestDTO) {
+        instructorService.addInstructor(instructorRequestDTO, instructorDetailRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Instructor Created successfully.");
     }
@@ -49,10 +48,10 @@ public class InstructorController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/instructorDetail/{id}")
-    public ResponseEntity<InstructorResponseDTO> getInstructorDetailByInstructorId(@PathVariable Long id) {
-        return new ResponseEntity<>(instructorService.getInstructorDetailByInstructorId(id), HttpStatus.OK);
-    }
+//    @GetMapping("/instructorDetail/{id}")
+//    public ResponseEntity<InstructorResponseDTO> getInstructorDetailByInstructorId(@PathVariable Long id) {
+//        return new ResponseEntity<>(instructorService.getInstructorDetailByInstructorId(id), HttpStatus.OK);
+//    }
 }
 
 

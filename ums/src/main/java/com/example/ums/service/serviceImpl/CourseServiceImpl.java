@@ -5,14 +5,14 @@ import com.example.ums.dto.response.CourseResponseDTO;
 import com.example.ums.model.Course;
 import com.example.ums.repository.CourseRepository;
 import com.example.ums.service.CourseService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
 

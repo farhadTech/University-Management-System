@@ -1,12 +1,12 @@
 package com.example.ums.service.serviceImpl;
 
 import com.example.ums.dto.request.InstructorDetailRequestDTO;
+import com.example.ums.dto.request.InstructorRequestDTO;
 import com.example.ums.dto.response.InstructorDetailResponseDTO;
-import com.example.ums.dto.response.InstructorResponseDTO;
+import com.example.ums.model.Instructor;
 import com.example.ums.model.InstructorDetail;
 import com.example.ums.repository.InstructorDetailRepository;
 import com.example.ums.service.InstructorDetailService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,11 +36,22 @@ public class InstructorDetailServiceImpl implements InstructorDetailService {
     }
 
     @Override
-    public void addInstructorDetail(InstructorDetailRequestDTO instructorDetailRequestDTO){
+    public void addInstructorDetail(InstructorDetailRequestDTO instructorDetailRequestDTO, InstructorRequestDTO instructorRequestDTO) {
         InstructorDetail instructorDetail = new InstructorDetail();
         instructorDetail.setBio(instructorDetailRequestDTO.bio());
         instructorDetail.setYoutubeChannel(instructorDetailRequestDTO.youtubeChannel());
         instructorDetail.setHobby(instructorDetailRequestDTO.hobby());
+
+        Instructor instructor = new Instructor();
+        instructor.setFirstName(instructorRequestDTO.firstName());
+        instructor.setLastName(instructorRequestDTO.lastName());
+        instructor.setEmail(instructorRequestDTO.email());
+        instructor.setPassword(instructorRequestDTO.password());
+        instructor.setPhone(instructorRequestDTO.phone());
+
+        instructorDetail.setInstructor(instructor);
+        instructor.setInstructorDetail(instructorDetail);
+
         instructorDetailRepository.save(instructorDetail);
     }
 
@@ -60,11 +71,11 @@ public class InstructorDetailServiceImpl implements InstructorDetailService {
         instructorDetailRepository.deleteById(id);
     }
 
-    @Override
-    public InstructorDetailResponseDTO getInstructorByInstructorDetailId(Long id) {
-        return instructorDetailRepository.findInstructorByInstructorDetailId(id)
-                .orElseThrow(() -> new RuntimeException("instructor not found with id " + id));
-    }
+//    @Override
+//    public InstructorDetailResponseDTO getInstructorByInstructorDetailId(Long id) {
+//        return instructorDetailRepository.findInstructorByInstructorDetailId(id)
+//                .orElseThrow(() -> new RuntimeException("instructor not found with id " + id));
+//    }
 }
 
 

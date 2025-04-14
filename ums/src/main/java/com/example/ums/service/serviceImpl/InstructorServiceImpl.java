@@ -1,20 +1,19 @@
 package com.example.ums.service.serviceImpl;
 
+import com.example.ums.dto.request.InstructorDetailRequestDTO;
 import com.example.ums.dto.request.InstructorRequestDTO;
-import com.example.ums.dto.response.InstructorDetailResponseDTO;
 import com.example.ums.dto.response.InstructorResponseDTO;
-import com.example.ums.model.Course;
 import com.example.ums.model.Instructor;
+import com.example.ums.model.InstructorDetail;
 import com.example.ums.repository.InstructorRepository;
 import com.example.ums.service.InstructorService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class InstructorServiceImpl implements InstructorService {
     private final InstructorRepository instructorRepository;
@@ -35,13 +34,23 @@ public class InstructorServiceImpl implements InstructorService {
 
 
     @Override
-    public void addInstructor(InstructorRequestDTO instructorRequestDTO) {
+    public void addInstructor(InstructorRequestDTO instructorRequestDTO, InstructorDetailRequestDTO instructorDetailRequestDTO) {
         Instructor instructor = new Instructor();
         instructor.setFirstName(instructorRequestDTO.firstName());
         instructor.setLastName(instructorRequestDTO.lastName());
         instructor.setEmail(instructorRequestDTO.email());
         instructor.setPassword(instructorRequestDTO.password());
         instructor.setPhone(instructorRequestDTO.phone());
+
+//        InstructorDetail instructorDetail = new InstructorDetail();
+//        instructorDetail.setYoutubeChannel(instructorDetailRequestDTO.youtubeChannel());
+//        instructorDetail.setBio(instructorDetailRequestDTO.bio());
+//        instructorDetail.setHobby(instructorDetailRequestDTO.hobby());
+//
+//        // link both sides of the relationship
+//        instructor.setInstructorDetail(instructorDetail);
+//        instructorDetail.setInstructor(instructor);
+
         instructorRepository.save(instructor);
     }
 
@@ -65,12 +74,12 @@ public class InstructorServiceImpl implements InstructorService {
     public void deleteInstructorById(Long id) {
         instructorRepository.deleteById(id);
     }
-
-    @Override
-    public InstructorResponseDTO getInstructorDetailByInstructorId(Long id){
-        return instructorRepository.findInstructorDetailByInstructorId(id)
-                .orElseThrow(() -> new RuntimeException("Instructor detail not found with id: " + id));
-    }
+//
+//    @Override
+//    public InstructorResponseDTO getInstructorDetailByInstructorId(Long id){
+//        return instructorRepository.findInstructorDetailByInstructorId(id)
+//                .orElseThrow(() -> new RuntimeException("Instructor detail not found with id: " + id));
+//    }
 }
 
 

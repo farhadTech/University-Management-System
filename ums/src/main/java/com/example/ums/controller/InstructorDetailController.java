@@ -1,7 +1,9 @@
 package com.example.ums.controller;
 
 import com.example.ums.dto.request.InstructorDetailRequestDTO;
+import com.example.ums.dto.request.InstructorRequestDTO;
 import com.example.ums.dto.response.InstructorDetailResponseDTO;
+import com.example.ums.model.Instructor;
 import com.example.ums.service.InstructorDetailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("api/instructor-detail")
-@RequiredArgsConstructor
 public class InstructorDetailController {
     private final InstructorDetailService instructorDetailService;
 
@@ -28,8 +30,8 @@ public class InstructorDetailController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createInstructorDetail(@Valid @RequestBody InstructorDetailRequestDTO instructorDetailRequestDTO) {
-        instructorDetailService.addInstructorDetail(instructorDetailRequestDTO);
+    public ResponseEntity<String> createInstructorDetail(@Valid @RequestBody InstructorDetailRequestDTO instructorDetailRequestDTO, InstructorRequestDTO instructorRequestDTO) {
+        instructorDetailService.addInstructorDetail(instructorDetailRequestDTO, instructorRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Successfully created instructor detail");
     }
@@ -48,10 +50,10 @@ public class InstructorDetailController {
                 .body("Successfully deleted instructor detail");
     }
 
-    @GetMapping("/instructor/{id}")
-    public ResponseEntity<InstructorDetailResponseDTO> getInstructorByInstructorDetailId(@PathVariable Long id) {
-        return new ResponseEntity<>(instructorDetailService.getInstructorByInstructorDetailId(id), HttpStatus.OK);
-    }
+//    @GetMapping("/instructor/{id}")
+//    public ResponseEntity<InstructorDetailResponseDTO> getInstructorByInstructorDetailId(@PathVariable Long id) {
+//        return new ResponseEntity<>(instructorDetailService.getInstructorByInstructorDetailId(id), HttpStatus.OK);
+//    }
 }
 
 

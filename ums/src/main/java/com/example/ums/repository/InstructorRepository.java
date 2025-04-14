@@ -14,16 +14,18 @@ import java.util.Optional;
 public interface InstructorRepository extends JpaRepository<Instructor, Long> {
     List<InstructorResponseDTO> findAllProjectedBy();
 
-    InstructorResponseDTO findProjectedById(Long id);
+    @Query("SELECT q from Instructor q where q.id=:id")
+    InstructorResponseDTO findProjectedById(@Param("id") Long id);
 
     /**
-     *Needs a custom JPQL query since Spring Data can’t resolve cross-projection automatically
+     * Needs a custom JPQL query since Spring Data can’t resolve cross-projection automatically
      **/
 
-    @Query("""
-            SELECT i 
-                        FROM Instructor i 
-                                    WHERE i.id = :id
-            """)
-    Optional<InstructorResponseDTO> findInstructorDetailByInstructorId(@Param("id") Long id);
+//    @Query("""
+//                SELECT i
+//                    FROM Instructor i
+//                        JOIN FETCH i.instructorDetail
+//                            WHERE i.id = :id
+//            """)
+//    Optional<InstructorResponseDTO> findInstructorDetailByInstructorId(@Param("id") Long id);
 }

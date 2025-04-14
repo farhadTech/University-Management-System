@@ -24,6 +24,6 @@ public class InstructorDetail {
     @Column(name = "hobby")
     private String hobby;
 
-    @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL) // making it bidirectional
+    @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL, fetch = FetchType.EAGER) // making it bidirectional
     private Instructor instructor;
 }

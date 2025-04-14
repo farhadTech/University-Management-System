@@ -3,11 +3,15 @@ package com.example.ums.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"instructor", "reviews"})
 @Entity
 @Table(name = "course")
 public class Course {
@@ -27,5 +31,17 @@ public class Course {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id") // refers to "course_id" column in "review" table
+    private Set<Review> reviews;
+
+    // Adding convenience method for adding reviews
+    public void addReview(Review tempReview) {
+        if(reviews == null) {
+            reviews = new LinkedHashSet<>();
+        }
+        reviews.add(tempReview);
+    }
 }
 
