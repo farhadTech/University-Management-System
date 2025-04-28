@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("""
@@ -28,4 +29,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             WHERE r.id = :id 
             """)
     Review getReviewById(Long id);
+
+    Set<Review> getReviewByIdIsIn(Set<Long> ids);
 }

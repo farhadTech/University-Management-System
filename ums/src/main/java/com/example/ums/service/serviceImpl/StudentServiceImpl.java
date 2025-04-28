@@ -46,14 +46,7 @@ public class StudentServiceImpl implements StudentService {
         student.setUsername(studentRequestDTO.username());
         student.setEmail(studentRequestDTO.email());
 
-        Set<Course> courses = new LinkedHashSet<>();
-        for(Long courseId : studentRequestDTO.courseIds()) {
-            Course course = courseRepository.getCourseById(courseId);
-            if(course == null) {
-                throw new IDNotFoundException("Course not found with id: " + courseId);
-            }
-            courses.add(course);
-        }
+        Set<Course> courses = courseRepository.getCourseByIdIsIn(studentRequestDTO.courseIds());
         student.setCourses(courses);
 
         return studentRepository.save(student);
@@ -69,14 +62,7 @@ public class StudentServiceImpl implements StudentService {
         student.setUsername(studentRequestDTO.username());
         student.setEmail(studentRequestDTO.email());
 
-        Set<Course> courses = new LinkedHashSet<>();
-        for(Long courseId : studentRequestDTO.courseIds()) {
-            Course course = courseRepository.getCourseById(courseId);
-            if(course == null) {
-                throw new IDNotFoundException("Course not found with id: " + courseId);
-            }
-            courses.add(course);
-        }
+        Set<Course> courses = courseRepository.getCourseByIdIsIn(studentRequestDTO.courseIds());
         student.setCourses(courses);
 
         return studentRepository.save(student);

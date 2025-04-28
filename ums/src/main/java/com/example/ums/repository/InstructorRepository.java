@@ -12,30 +12,21 @@ import java.util.List;
 @Repository
 public interface InstructorRepository extends JpaRepository<Instructor, Long> {
     @Query("""
-            SELECT i.id as id,
-            i.fullName as fullName,
-            i.username as username,
-            i.email as email
+            SELECT i
             FROM Instructor i
             """)
     List<InstructorResponseDTO> findAllInstructors();
 
     @Query("""
-            SELECT i.id as id,
-            i.fullName as fullName,
-            i.username as username,
-            i.email as email
+            SELECT i
             FROM Instructor i
             WHERE i.id = :id 
             """)
     InstructorResponseDTO findInstructorById(@Param("id") Long id);
 
     @Query("""
-            SELECT i.id as id,
-            i.fullName as fullName,
-            i.username as username,
-            i.email as email
-            FROM Instructor i 
+            SELECT i
+            FROM Instructor i
             WHERE i.id = :id 
             """)
     Instructor getInstructorById(@Param("id") Long id);

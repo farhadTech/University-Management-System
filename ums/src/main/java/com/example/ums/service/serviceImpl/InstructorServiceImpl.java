@@ -58,16 +58,7 @@ public class InstructorServiceImpl implements InstructorService {
         }
         instructor.setInstructorDetail(instructorDetail);
 
-        Set<Course> courses = new LinkedHashSet<>();
-        for(Long courseId : instructorRequestDTO.courseIds()) {
-            Course course = courseRepository.getCourseById(courseId);
-
-            if(course != null) {
-                courses.add(course);
-            } else {
-                throw new IDNotFoundException("Course not found found for id: " + courseId);
-            }
-        }
+        Set<Course> courses = courseRepository.getCourseByIdIsIn(instructorRequestDTO.courseIds());
         instructor.setCourses(courses);
 
         return instructorRepository.save(instructor);
@@ -89,15 +80,7 @@ public class InstructorServiceImpl implements InstructorService {
         }
         instructor.setInstructorDetail(instructorDetail);
 
-        Set<Course> courses = new LinkedHashSet<>();
-        for(Long courseId : instructorRequestDTO.courseIds()) {
-            Course course = courseRepository.getCourseById(courseId);
-            if(course != null) {
-                courses.add(course);
-            } else {
-                throw new IDNotFoundException("Course not found for id: " + courseId);
-            }
-        }
+        Set<Course> courses = courseRepository.getCourseByIdIsIn(instructorRequestDTO.courseIds());
         instructor.setCourses(courses);
 
         return instructorRepository.save(instructor);

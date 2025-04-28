@@ -53,6 +53,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course createCourse(CourseRequestDTO courseRequestDTO) {
         Course course = new Course();
+
         course.setTitle(courseRequestDTO.title());
         course.setDepartmentName(courseRequestDTO.departmentName());
         course.setCredits(courseRequestDTO.credits());
@@ -60,26 +61,10 @@ public class CourseServiceImpl implements CourseService {
         Instructor instructor = instructorRepository.getInstructorById(courseRequestDTO.instructorId());
         course.setInstructor(instructor);
 
-        Set<Review> reviews = new LinkedHashSet<>();
-        for(Long reviewId : courseRequestDTO.reviewIds()) {
-            Review review = reviewRepository.getReviewById(reviewId);
-            if(review != null) {
-                reviews.add(review);
-            } else {
-                throw new IDNotFoundException("Review not found with id: " + reviewId);
-            }
-        }
+        Set<Review> reviews = reviewRepository.getReviewByIdIsIn(courseRequestDTO.reviewIds());
         course.setReviews(reviews);
 
-        Set<Student> students = new LinkedHashSet<>();
-        for(Long studentId : courseRequestDTO.studentIds()) {
-            Student student = studentRepository.getStudentById(studentId);
-            if(student != null) {
-                students.add(student);
-            } else {
-                throw new IDNotFoundException("Student not found with id: " + studentId);
-            }
-        }
+        Set<Student> students = studentRepository.getStudentByIdIsIn(courseRequestDTO.studentIds());
         course.setStudents(students);
 
         return courseRepository.save(course);
@@ -99,26 +84,10 @@ public class CourseServiceImpl implements CourseService {
         Instructor instructor = instructorRepository.getInstructorById(courseRequestDTO.instructorId());
         course.setInstructor(instructor);
 
-        Set<Review> reviews = new LinkedHashSet<>();
-        for(Long reviewId : courseRequestDTO.reviewIds()) {
-            Review review = reviewRepository.getReviewById(reviewId);
-            if(review != null) {
-                reviews.add(review);
-            } else {
-                throw new IDNotFoundException("Review not found with id: " + reviewId);
-            }
-        }
+        Set<Review> reviews = reviewRepository.getReviewByIdIsIn(courseRequestDTO.reviewIds());
         course.setReviews(reviews);
 
-        Set<Student> students = new LinkedHashSet<>();
-        for(Long studentId : courseRequestDTO.studentIds()) {
-            Student student = studentRepository.getStudentById(studentId);
-            if(student != null) {
-                students.add(student);
-            } else {
-                throw new IDNotFoundException("Student not found with id: " + studentId);
-            }
-        }
+        Set<Student> students = studentRepository.getStudentByIdIsIn(courseRequestDTO.studentIds());
         course.setStudents(students);
 
         return courseRepository.save(course);

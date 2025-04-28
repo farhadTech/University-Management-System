@@ -7,12 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query("""
             SELECT s.id as id,
             s.fullName as fullName,
-            s.username as username
+            s.username as username,
+            s.email as email
             FROM Student s
             """)
     List<StudentResponseDTO> findAllStudents();
@@ -34,4 +36,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             WHERE s.id = :id 
             """)
     Student getStudentById(@Param("id") Long id);
+
+    Set<Student> getStudentByIdIsIn(Set<Long> ids);
 }

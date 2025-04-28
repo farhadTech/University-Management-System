@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
@@ -39,5 +40,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             WHERE c.id = :id 
             """)
     Course getCourseById(@Param("id") Long id);
-//    List<CourseResponseDTO> findAllByInstructorId(Long id);
+
+    Set<Course> getCourseByIdIsIn(Set<Long> ids);
 }
