@@ -2,33 +2,21 @@ package com.example.ums.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 
 import java.io.Serializable;
+import java.util.Set;
 
-// send data from client to server
 public record StudentRequestDTO(
-        @NotBlank(message = "Enter first name: ")
-        String firstName,
+        @NotBlank(message = "Enter full name: ")
+        String fullName,
 
-        @NotBlank(message = "Enter last name: ")
-        String lastName,
+        @NotBlank(message = "Enter username: ")
+        String username,
 
         @Email(message = "Enter a valid email")
         String email,
 
-        @Pattern(
-                regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,30}$",
-                message = "Password must include at least one uppercase letter, one number, and one special character"
-        )
-        @NotBlank(message = "Enter password: ")
-        String password,
+        Set<Long> courseIds
 
-        @Pattern(regexp = "^(\\+8801|01)[0-9]{9}$", message = "Enter a valid Bangladeshi phone number")
-        @NotBlank(message = "Enter phone number: ")
-        String phone,
-
-        @NotBlank(message = "Enter address: ")
-        String address
 ) implements Serializable {}
 

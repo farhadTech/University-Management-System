@@ -3,6 +3,7 @@ package com.example.ums.controller;
 import com.example.ums.dto.request.CourseRequestDTO;
 import com.example.ums.dto.response.CourseResponseDTO;
 import com.example.ums.service.CourseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,8 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createCourse(@RequestBody CourseRequestDTO courseRequestDTO) {
-        courseService.addCourse(courseRequestDTO);
+    public ResponseEntity<String> createCourse(@Valid @RequestBody CourseRequestDTO courseRequestDTO) {
+        courseService.createCourse(courseRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Course created successfully.");
     }
@@ -47,10 +48,7 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/instructor/{id}")
-    public ResponseEntity<List<CourseResponseDTO>> getAllCourseByInstructorId(@PathVariable Long id) {
-        return new ResponseEntity<>(courseService.getAllCoursesByInstructorId(id), HttpStatus.OK);
-    }
+
 }
 
 

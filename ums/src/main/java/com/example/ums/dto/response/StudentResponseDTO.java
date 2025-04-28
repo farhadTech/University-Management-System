@@ -2,9 +2,7 @@ package com.example.ums.dto.response;
 
 public interface StudentResponseDTO {
     Long getId();
-    String getFirstName();
-    String getLastName();
+    String getFullName();
+    String getUsername();
     String getEmail();
-    String getPhone();
-    String getAddress();
 }

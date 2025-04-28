@@ -3,6 +3,7 @@ package com.example.ums.controller;
 import com.example.ums.dto.request.ReviewRequestDTO;
 import com.example.ums.dto.response.ReviewResponseDTO;
 import com.example.ums.service.ReviewService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,8 @@ public class ReviewController {
     }
 
     @PostMapping
-    ResponseEntity<String> createReview(@RequestBody ReviewRequestDTO reviewRequestDTO) {
-        reviewService.addReview(reviewRequestDTO);
+    ResponseEntity<String> createReview(@Valid @RequestBody ReviewRequestDTO reviewRequestDTO) {
+        reviewService.createReview(reviewRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Review created");
     }

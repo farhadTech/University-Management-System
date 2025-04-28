@@ -10,12 +10,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = {"instructor", "reviews"})
 @Entity
 @Table(name = "course")
 public class Course {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_seq")
+    @SequenceGenerator(name = "course_seq", sequenceName = "course_seq", initialValue = 2001, allocationSize = 1)
     private Long id;
 
     @Column(name = "title", nullable = false, unique = true)
@@ -27,7 +27,7 @@ public class Course {
     @Column(name = "credits", nullable = false)
     private int credits;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) // ManyToOne: default is eager
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
@@ -47,13 +47,5 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "student_id") // refers to "student_id" column in "course_student" join table.
     )
     private Set<Student> students = new LinkedHashSet<>();
-
-    // Adding convenience method for adding reviews
-    public void addReview(Review tempReview) {
-        if(reviews == null) {
-            reviews = new LinkedHashSet<>();
-        }
-        reviews.add(tempReview);
-    }
 }
 

@@ -1,8 +1,6 @@
 package com.example.ums.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.LinkedHashSet;
@@ -15,35 +13,11 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "student")
-public class Student {
+public class Student extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_seq")
+    @SequenceGenerator(name = "student_seq", sequenceName = "student_seq", initialValue = 4001, allocationSize = 1)
     private Long id;
-
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
-    @NotBlank(message = "Enter email: ")
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
-
-
-    @Column(name = "password", nullable = false)
-    @Size(
-            min = 8, max = 30,
-            message = "password should be greater than 8 and less than 30."
-    )
-    private String password;
-
-
-    @Column(name = "phone", nullable = false, unique = true)
-    private String phone;
-
-    @Column(name = "address", nullable = false)
-    private String address;
 
     @ManyToMany(mappedBy = "students", // refers to "student_id" in "course_students" table.
             fetch = FetchType.LAZY,
@@ -55,13 +29,6 @@ public class Student {
     })
     private Set<Course> courses = new LinkedHashSet<>();
 }
-
-
-
-
-
-
-
 
 
 

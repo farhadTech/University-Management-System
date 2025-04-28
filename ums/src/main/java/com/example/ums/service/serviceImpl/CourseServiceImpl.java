@@ -1,68 +1,133 @@
 package com.example.ums.service.serviceImpl;
 
+import com.example.ums.common.exception.IDNotFoundException;
 import com.example.ums.dto.request.CourseRequestDTO;
 import com.example.ums.dto.response.CourseResponseDTO;
 import com.example.ums.model.Course;
+import com.example.ums.model.Instructor;
+import com.example.ums.model.Review;
+import com.example.ums.model.Student;
 import com.example.ums.repository.CourseRepository;
+import com.example.ums.repository.InstructorRepository;
+import com.example.ums.repository.ReviewRepository;
+import com.example.ums.repository.StudentRepository;
 import com.example.ums.service.CourseService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
-    private final CourseRepository courseRepository;
+    private CourseRepository courseRepository;
+    private InstructorRepository instructorRepository;
+    private ReviewRepository reviewRepository;
+    private StudentRepository studentRepository;
+
+    public CourseServiceImpl(CourseRepository courseRepository,
+                             InstructorRepository instructorRepository,
+                             ReviewRepository reviewRepository,
+                             StudentRepository studentRepository) {
+        this.courseRepository = courseRepository;
+        this.instructorRepository = instructorRepository;
+        this.reviewRepository = reviewRepository;
+        this.studentRepository = studentRepository;
+    }
 
     @Override
     public List<CourseResponseDTO> getAllCourses() {
-        return courseRepository.findAllProjectedBy();
+        return courseRepository.findAllCourses();
     }
 
     @Override
     public CourseResponseDTO getCourseById(Long id) {
-        CourseResponseDTO courseResponseDTO = courseRepository.findProjectedById(id);
+        CourseResponseDTO courseResponseDTO = courseRepository.findCourseById(id);
         if (Objects.isNull(courseResponseDTO)) {
-            throw new RuntimeException("Course with id " + id + " not found");
+            throw new IDNotFoundException("Course not found with id: " + id);
         }
         return courseResponseDTO;
     }
 
     @Override
-    public void addCourse(CourseRequestDTO courseRequestDTO) {
+    public Course createCourse(CourseRequestDTO courseRequestDTO) {
         Course course = new Course();
         course.setTitle(courseRequestDTO.title());
         course.setDepartmentName(courseRequestDTO.departmentName());
         course.setCredits(courseRequestDTO.credits());
 
-        courseRepository.save(course);
+        Instructor instructor = instructorRepository.getInstructorById(courseRequestDTO.instructorId());
+        course.setInstructor(instructor);
+
+        Set<Review> reviews = new LinkedHashSet<>();
+        for(Long reviewId : courseRequestDTO.reviewIds()) {
+            Review review = reviewRepository.getReviewById(reviewId);
+            if(review != null) {
+                reviews.add(review);
+            } else {
+                throw new IDNotFoundException("Review not found with id: " + reviewId);
+            }
+        }
+        course.setReviews(reviews);
+
+        Set<Student> students = new LinkedHashSet<>();
+        for(Long studentId : courseRequestDTO.studentIds()) {
+            Student student = studentRepository.getStudentById(studentId);
+            if(student != null) {
+                students.add(student);
+            } else {
+                throw new IDNotFoundException("Student not found with id: " + studentId);
+            }
+        }
+        course.setStudents(students);
+
+        return courseRepository.save(course);
     }
 
     @Override
-    public void updateCourse(Long id, CourseRequestDTO courseRequestDTO) {
-        Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(
-                        "Course with id " + id + " not found"));
+    public Course updateCourse(Long id, CourseRequestDTO courseRequestDTO) {
+        Course course = courseRepository.getCourseById(id);
+        if(course == null) {
+            throw new IDNotFoundException("Course not found with id: " + id);
+        }
+
         course.setTitle(courseRequestDTO.title());
         course.setDepartmentName(courseRequestDTO.departmentName());
         course.setCredits(courseRequestDTO.credits());
 
-        courseRepository.save(course);
-    }
+        Instructor instructor = instructorRepository.getInstructorById(courseRequestDTO.instructorId());
+        course.setInstructor(instructor);
 
-    @Override
-    public void deleteCourse(Long id) {
-        if( !courseRepository.existsById(id)) {
-            throw new RuntimeException("Course with id " + id + " not found");
+        Set<Review> reviews = new LinkedHashSet<>();
+        for(Long reviewId : courseRequestDTO.reviewIds()) {
+            Review review = reviewRepository.getReviewById(reviewId);
+            if(review != null) {
+                reviews.add(review);
+            } else {
+                throw new IDNotFoundException("Review not found with id: " + reviewId);
+            }
         }
-        courseRepository.deleteById(id);
+        course.setReviews(reviews);
+
+        Set<Student> students = new LinkedHashSet<>();
+        for(Long studentId : courseRequestDTO.studentIds()) {
+            Student student = studentRepository.getStudentById(studentId);
+            if(student != null) {
+                students.add(student);
+            } else {
+                throw new IDNotFoundException("Student not found with id: " + studentId);
+            }
+        }
+        course.setStudents(students);
+
+        return courseRepository.save(course);
     }
 
     @Override
-    public List<CourseResponseDTO> getAllCoursesByInstructorId(Long id) {
-        return courseRepository.findAllByInstructorId(id);
+    public String deleteCourse(Long id) {
+        courseRepository.deleteById(id);
+        return "Course deleted";
     }
 }
 

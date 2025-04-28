@@ -1,50 +1,57 @@
 package com.example.ums.service.serviceImpl;
 
+import com.example.ums.common.exception.IDNotFoundException;
 import com.example.ums.dto.request.ReviewRequestDTO;
 import com.example.ums.dto.response.ReviewResponseDTO;
 import com.example.ums.model.Review;
-import com.example.ums.repository.ReviewRepositroy;
+import com.example.ums.repository.ReviewRepository;
 import com.example.ums.service.ReviewService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Objects;
 
 @Repository
-@RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
-   private final ReviewRepositroy reviewRepository;
+   private ReviewRepository reviewRepository;
+
+   public ReviewServiceImpl(ReviewRepository reviewRepository) {
+       this.reviewRepository = reviewRepository;
+   }
 
     @Override
     public List<ReviewResponseDTO> getAllReviews() {
-        return reviewRepository.findAllProjectedBy();
+        return reviewRepository.findAllReviews();
     }
 
     @Override
     public ReviewResponseDTO getReviewById(Long id) {
-        ReviewResponseDTO reviewResponseDTO = reviewRepository.findProjectedById(id);
-        if (Objects.isNull(reviewResponseDTO)) {
-            throw new RuntimeException("Review not found with id: " + id);
+        ReviewResponseDTO reviewResponseDTO = reviewRepository.findReviewById(id);
+        if(reviewResponseDTO == null){
+            throw new IDNotFoundException("ID not found for id: " + id);
         }
+
         return reviewResponseDTO;
     }
 
     @Override
-    public void addReview(ReviewRequestDTO reviewRequestDTO) {
+    public Review createReview(ReviewRequestDTO reviewRequestDTO) {
         Review review = new Review();
         review.setComment(reviewRequestDTO.comment());
         review.setRating(reviewRequestDTO.rating());
-        reviewRepository.save(review);
+
+        return reviewRepository.save(review);
     }
 
     @Override
-    public void updateReview(Long id, ReviewRequestDTO reviewRequestDTO) {
-        Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Review not found with id: " + id));
+    public Review updateReview(Long id, ReviewRequestDTO reviewRequestDTO) {
+        Review review = reviewRepository.getReviewById(id);
+        if(review == null){
+            throw new IDNotFoundException("ID not found for id: " + id);
+        }
         review.setComment(reviewRequestDTO.comment());
         review.setRating(reviewRequestDTO.rating());
-        reviewRepository.save(review);
+
+        return reviewRepository.save(review);
     }
 
     @Override

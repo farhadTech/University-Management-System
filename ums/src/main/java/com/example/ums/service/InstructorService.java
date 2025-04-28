@@ -12,8 +12,8 @@ import java.util.List;
 public interface InstructorService {
     List<InstructorResponseDTO> getAllInstructors();
     InstructorResponseDTO getInstructorById(Long id);
-    void addInstructor(InstructorRequestDTO instructorRequestDTO, InstructorDetailRequestDTO instructorDetailRequestDTO);
-    void updateInstructor(Long id, InstructorRequestDTO instructorRequestDTO);
-    void deleteInstructorById(Long id);
+    Instructor createInstructor(InstructorRequestDTO instructorRequestDTO);
+    Instructor updateInstructor(Long id, InstructorRequestDTO instructorRequestDTO);
+    String deleteInstructorById(Long id);
 //    InstructorResponseDTO getInstructorDetailByInstructorId(Long id);
 }

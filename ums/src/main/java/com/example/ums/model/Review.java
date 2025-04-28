@@ -14,7 +14,8 @@ import lombok.Setter;
 @Table(name = "review")
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_seq")
+    @SequenceGenerator(name = "review_seq", sequenceName = "review_seq", initialValue = 5001, allocationSize = 1)
     private Long id;
 
     @Column(name = "comment", nullable = false)

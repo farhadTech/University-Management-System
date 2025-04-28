@@ -1,6 +1,5 @@
 package com.example.ums.common.exception;
 
-import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,7 +29,7 @@ public class GlobalException {
                 webRequest.getDescription(false),
                 "Email already Exist"
         );
-        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(Exception.class)

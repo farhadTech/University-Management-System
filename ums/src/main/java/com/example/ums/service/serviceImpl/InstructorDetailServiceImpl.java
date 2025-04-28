@@ -1,74 +1,69 @@
 package com.example.ums.service.serviceImpl;
 
+import com.example.ums.common.exception.IDNotFoundException;
 import com.example.ums.dto.request.InstructorDetailRequestDTO;
-import com.example.ums.dto.request.InstructorRequestDTO;
 import com.example.ums.dto.response.InstructorDetailResponseDTO;
-import com.example.ums.model.Instructor;
 import com.example.ums.model.InstructorDetail;
 import com.example.ums.repository.InstructorDetailRepository;
+import com.example.ums.repository.InstructorRepository;
 import com.example.ums.service.InstructorDetailService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
-@RequiredArgsConstructor
 @Service
 public class InstructorDetailServiceImpl implements InstructorDetailService {
-    @Autowired
     private InstructorDetailRepository instructorDetailRepository;
+    private InstructorRepository instructorRepository;
+
+    public InstructorDetailServiceImpl(InstructorDetailRepository instructorDetailRepository,
+                                       InstructorRepository instructorRepository) {
+        this.instructorDetailRepository = instructorDetailRepository;
+        this.instructorRepository = instructorRepository;
+    }
 
     @Override
     public List<InstructorDetailResponseDTO> getAllInstructorDetail() {
-        return instructorDetailRepository.findAllProjectedBy();
+        return instructorDetailRepository.findAllInstructorDetail();
     }
 
     @Override
     public InstructorDetailResponseDTO getInstructorDetailById(Long id) {
-        InstructorDetailResponseDTO instructorDetailResponseDTO = instructorDetailRepository.findProjectedById(id);
+        InstructorDetailResponseDTO instructorDetailResponseDTO = instructorDetailRepository.findInstructorDetailById(id);
 
-        if (Objects.isNull(instructorDetailResponseDTO)) {
-            throw new RuntimeException("instructorDetail not found with id " + id);
+        if(instructorDetailResponseDTO == null) {
+            throw new IDNotFoundException("Instructor Detail Not Found for ID: " + id);
         }
         return instructorDetailResponseDTO;
     }
 
     @Override
-    public void addInstructorDetail(InstructorDetailRequestDTO instructorDetailRequestDTO, InstructorRequestDTO instructorRequestDTO) {
+    public InstructorDetail createInstructorDetail(InstructorDetailRequestDTO instructorDetailRequestDTO) {
         InstructorDetail instructorDetail = new InstructorDetail();
         instructorDetail.setBio(instructorDetailRequestDTO.bio());
         instructorDetail.setYoutubeChannel(instructorDetailRequestDTO.youtubeChannel());
         instructorDetail.setHobby(instructorDetailRequestDTO.hobby());
 
-        Instructor instructor = new Instructor();
-        instructor.setFirstName(instructorRequestDTO.firstName());
-        instructor.setLastName(instructorRequestDTO.lastName());
-        instructor.setEmail(instructorRequestDTO.email());
-        instructor.setPassword(instructorRequestDTO.password());
-        instructor.setPhone(instructorRequestDTO.phone());
-
-        instructorDetail.setInstructor(instructor);
-        instructor.setInstructorDetail(instructorDetail);
-
-        instructorDetailRepository.save(instructorDetail);
+        return instructorDetailRepository.save(instructorDetail);
     }
 
     @Override
-    public void updateInstructorDetail(Long id, InstructorDetailRequestDTO instructorDetailRequestDTO){
-        InstructorDetail instructorDetail = instructorDetailRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Instructor detail not found with id: " + id));
+    public InstructorDetail updateInstructorDetail(Long id, InstructorDetailRequestDTO instructorDetailRequestDTO){
+        InstructorDetail instructorDetail = instructorDetailRepository.getInstructorDetailId(id);
+        if(instructorDetail == null) {
+            throw new IDNotFoundException("Instructor Detail Not Found for ID: " + id);
+        }
 
         instructorDetail.setBio(instructorDetailRequestDTO.bio());
         instructorDetail.setYoutubeChannel(instructorDetailRequestDTO.youtubeChannel());
         instructorDetail.setHobby(instructorDetailRequestDTO.hobby());
 
-        instructorDetailRepository.save(instructorDetail);
+        return instructorDetailRepository.save(instructorDetail);
     }
 
-    public void deleteInstructorDetail(Long id) {
+    public String deleteInstructorDetail(Long id) {
         instructorDetailRepository.deleteById(id);
+        return "Instructor Detail Deleted for ID: " + id;
     }
 
 //    @Override

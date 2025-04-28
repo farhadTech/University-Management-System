@@ -30,8 +30,8 @@ public class InstructorDetailController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createInstructorDetail(@Valid @RequestBody InstructorDetailRequestDTO instructorDetailRequestDTO, InstructorRequestDTO instructorRequestDTO) {
-        instructorDetailService.addInstructorDetail(instructorDetailRequestDTO, instructorRequestDTO);
+    public ResponseEntity<String> createInstructorDetail(@Valid @RequestBody InstructorDetailRequestDTO instructorDetailRequestDTO) {
+        instructorDetailService.createInstructorDetail(instructorDetailRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Successfully created instructor detail");
     }

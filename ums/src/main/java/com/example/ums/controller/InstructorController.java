@@ -29,8 +29,8 @@ public class InstructorController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createInstructor(@Valid @RequestBody InstructorRequestDTO instructorRequestDTO, InstructorDetailRequestDTO instructorDetailRequestDTO) {
-        instructorService.addInstructor(instructorRequestDTO, instructorDetailRequestDTO);
+    public ResponseEntity<String> createInstructor(@Valid @RequestBody InstructorRequestDTO instructorRequestDTO) {
+        instructorService.createInstructor(instructorRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Instructor Created successfully.");
     }

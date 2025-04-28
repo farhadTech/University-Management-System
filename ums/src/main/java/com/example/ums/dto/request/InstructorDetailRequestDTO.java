@@ -11,4 +11,5 @@ public record InstructorDetailRequestDTO(
         String bio,
 
         String hobby
+
 ) implements Serializable {}
