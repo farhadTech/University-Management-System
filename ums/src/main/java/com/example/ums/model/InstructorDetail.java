@@ -28,6 +28,7 @@ public class InstructorDetail {
             ,cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.REFRESH,
-            CascadeType.DETACH})
+            CascadeType.DETACH}
+    )
     private Instructor instructor;
 }

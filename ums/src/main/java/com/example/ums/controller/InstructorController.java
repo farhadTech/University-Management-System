@@ -2,6 +2,7 @@ package com.example.ums.controller;
 
 import com.example.ums.dto.request.InstructorDetailRequestDTO;
 import com.example.ums.dto.request.InstructorRequestDTO;
+import com.example.ums.dto.response.InstructorCustomResponseDTO;
 import com.example.ums.dto.response.InstructorResponseDTO;
 import com.example.ums.service.InstructorService;
 import jakarta.validation.Valid;
@@ -21,6 +22,11 @@ public class InstructorController {
     @GetMapping
     public ResponseEntity<List<InstructorResponseDTO>> findAllInstructors() {
         return new ResponseEntity<>(instructorService.getAllInstructors(), HttpStatus.OK);
+    }
+
+    @GetMapping("custom-instructor")
+    public ResponseEntity<List<InstructorCustomResponseDTO>> findAllInstructorsCustom() {
+        return new ResponseEntity<>(instructorService.getAllInstructorsCustom(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

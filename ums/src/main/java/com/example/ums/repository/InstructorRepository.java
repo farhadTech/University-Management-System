@@ -1,5 +1,6 @@
 package com.example.ums.repository;
 
+import com.example.ums.dto.response.InstructorCustomResponseDTO;
 import com.example.ums.dto.response.InstructorResponseDTO;
 import com.example.ums.model.Instructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,12 @@ public interface InstructorRepository extends JpaRepository<Instructor, Long> {
             FROM Instructor i
             """)
     List<InstructorResponseDTO> findAllInstructors();
+
+    @Query("""
+            SELECT i
+            FROM Instructor i
+            """)
+    List<InstructorCustomResponseDTO> findAllInstructorsCustom();
 
     @Query("""
             SELECT i

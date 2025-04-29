@@ -2,6 +2,7 @@ package com.example.ums.service.serviceImpl;
 
 import com.example.ums.common.exception.IDNotFoundException;
 import com.example.ums.dto.request.InstructorRequestDTO;
+import com.example.ums.dto.response.InstructorCustomResponseDTO;
 import com.example.ums.dto.response.InstructorResponseDTO;
 import com.example.ums.model.Course;
 import com.example.ums.model.Instructor;
@@ -12,7 +13,6 @@ import com.example.ums.repository.InstructorRepository;
 import com.example.ums.service.InstructorService;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +33,11 @@ public class InstructorServiceImpl implements InstructorService {
     @Override
     public List<InstructorResponseDTO> getAllInstructors() {
         return instructorRepository.findAllInstructors();
+    }
+
+    @Override
+    public List<InstructorCustomResponseDTO> getAllInstructorsCustom() {
+        return instructorRepository.findAllInstructorsCustom();
     }
 
     @Override
